@@ -30,6 +30,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Get active images from dropbox
+        run: |
+          DIR="/active"
+          HTTP_CODE=$(curl -X POST https://api.dropboxapi.com/2/files/list_folder \
+            --header "Authorization: Bearer $DROP_TK" \
+            --header 'Content-Type: application/json' \
+            --data '{"path":"/active","include_media_info":true,"include_deleted":false,"include_has_explicit_shared_members":false,"include_mounted_folders":false,"include_non_downloadable_files":true}')
+          echo $HTTP_CODE > file_list.json
+          cat file_list.json
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Upload artifact
