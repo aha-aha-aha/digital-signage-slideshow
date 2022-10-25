@@ -31,6 +31,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Get active images from dropbox
+        env:
+          DROP_TK: ${{ secrets.DROP_TK }}
         run: |
           DIR="/active"
           HTTP_CODE=$(curl -X POST https://api.dropboxapi.com/2/files/list_folder \
